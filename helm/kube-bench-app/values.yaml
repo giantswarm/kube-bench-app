@@ -1,0 +1,11 @@
+# Default values for kube-bench-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: kube-bench-app
+namespace: default
+
+image:
+  registry: quay.io
+  name: giantswarm/kube-bench
+  tag: 0.2.2

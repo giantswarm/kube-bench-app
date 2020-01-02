@@ -1,16 +1,41 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@0.4.3
+  architect: giantswarm/architect@0.4.5
 
 workflows:
   package-and-push-chart-on-tag:
     jobs:
       - architect/push-to-app-catalog:
-          name: "package and push {CHART-NAME} chart"
+          name: "package and push kube-bench-app chart"
           app_catalog: "giantswarm-incubator-catalog"
           app_catalog_test: "giantswarm-incubator-test-catalog"
-          chart: "{CHART-NAME}"
+          chart: "kube-bench-app"
           # Trigger job on git tag.
           filters:
             tags:
               only: /^v.*/
+
+    #   - architect/push-to-app-catalog:
+    #     name: push-canary-operator-to-app-catalog
+    #     app_catalog: "control-plane-catalog"
+    #     app_catalog_test: "control-plane-test-catalog"
+    #     chart: "canary-operator"
+    #     requires:
+    #       - push-canary-operator-to-quay
+    #     # Needed to trigger job also on git tag.
+    #     filters:
+    #       tags:
+    #         only: /^v.*/
+
+    # - architect/push-to-app-collection:
+    #     name: app-collection
+    #     app_name: "canary-operator"
+    #     app_collection_repo: "operator-week-app-collection"
+    #     app_catalog: "control-plane-test-catalog"
+    #     requires:
+    #       - push-canary-operator-to-app-catalog
+    #     filters:
+    #       branches:
+    #         ignore: /.*/
+    #       tags:
+    #         only: /^v.*/
