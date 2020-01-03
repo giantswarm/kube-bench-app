@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ tpl .Values.project.name  . }}
-  namespace: {{ tpl .Values.project.namespace  . }}
+  name: {{ tpl .Values.name  . }}
+  namespace: {{ tpl .Values.namespace  . }}
   labels:
-    app: {{ .Values.project.name }}
-    version: {{ .Values.project.version }}
+    app: {{ .Values.name }}
+    version: {{ .Values.version }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.project.name }}
-      version: {{ .Values.project.version }}
+      app: {{ .Values.name }}
+      version: {{ .Values.version }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: {{ .Values.project.name }}
-        version: {{ .Values.project.version }}
+        app: {{ .Values.name }}
+        version: {{ .Values.version }}
       annotations:
         releasetime: {{ $.Release.Time }}
     spec:
@@ -28,31 +28,31 @@ spec:
           - podAffinityTerm:
               labelSelector:
                 matchLabels:
-                  app: {{ .Values.project.name }}
-                  version: {{ .Values.project.version }}
+                  app: {{ .Values.name }}
+                  version: {{ .Values.version }}
               topologyKey: kubernetes.io/hostname
             weight: 100
       volumes:
-      - name: {{ .Values.project.name }}-configmap
+      - name: {{ .Values.name }}-configmap
         configMap:
-          name: {{ tpl .Values.project.name  . }}
+          name: {{ tpl .Values.name  . }}
           items:
           - key: config.yml
             path: config.yml
-      serviceAccountName: {{ tpl .Values.project.name  . }}
+      serviceAccountName: {{ tpl .Values.name  . }}
       securityContext:
         runAsUser: {{ .Values.pod.user.id }}
         runAsGroup: {{ .Values.pod.group.id }}
       containers:
-      - name: {{ .Values.project.name }}
+      - name: {{ .Values.name }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         args:
         - daemon
-        - --config.dirs=/var/run/{{ .Values.project.name }}/configmap/
+        - --config.dirs=/var/run/{{ .Values.name }}/configmap/
         - --config.files=config
         volumeMounts:
-        - name: {{ .Values.project.name }}-configmap
-          mountPath: /var/run/{{ .Values.project.name }}/configmap/
+        - name: {{ .Values.name }}-configmap
+          mountPath: /var/run/{{ .Values.name }}/configmap/
         livenessProbe:
           httpGet:
             path: /healthz
