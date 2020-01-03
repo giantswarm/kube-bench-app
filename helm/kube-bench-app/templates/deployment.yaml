@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ tpl .Values.resource.default.name  . }}
-  namespace: {{ tpl .Values.resource.default.namespace  . }}
+  name: {{ tpl .Values.project.name  . }}
+  namespace: {{ tpl .Values.project.namespace  . }}
   labels:
     app: {{ .Values.project.name }}
     version: {{ .Values.project.version }}
@@ -35,11 +35,11 @@ spec:
       volumes:
       - name: {{ .Values.project.name }}-configmap
         configMap:
-          name: {{ tpl .Values.resource.default.name  . }}
+          name: {{ tpl .Values.project.name  . }}
           items:
           - key: config.yml
             path: config.yml
-      serviceAccountName: {{ tpl .Values.resource.default.name  . }}
+      serviceAccountName: {{ tpl .Values.project.name  . }}
       securityContext:
         runAsUser: {{ .Values.pod.user.id }}
         runAsGroup: {{ .Values.pod.group.id }}
