@@ -9,3 +9,7 @@ image:
   registry: quay.io
   name: giantswarm/kube-bench
   tag: 0.2.2
+
+  resource:
+    psp:
+      name: kube-bench-psp
