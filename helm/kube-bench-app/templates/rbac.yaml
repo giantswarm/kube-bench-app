@@ -1,57 +1,95 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ tpl .Values.name  . }}
+  name: {{ .Values.name }}
 rules:
-  - apiGroups:
-      - "*"
-    resources:
-      - "*"
-    verbs:
-      - "*"
-  - apiGroups:
-      - batch
-    resources:
-      - jobs
-    verbs:
-      - "*"      
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ tpl .Values.name  . }}
-subjects:
-  - kind: ServiceAccount
-    name: {{ tpl .Values.name  . }}
-    namespace: {{ tpl .Values.namespace  . }}
+  creationTimestamp: null
+  name: kube-bench-rolebinding
 roleRef:
-  kind: ClusterRole
-  name: {{ tpl .Values.name  . }}
   apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ tpl .Values.resource.psp.name . }}
-rules:
-  - apiGroups:
-      - extensions
-    resources:
-      - podsecuritypolicies
-    verbs:
-      - use
-    resourceNames:
-      - {{ tpl .Values.resource.psp.name . }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: {{ tpl .Values.resource.psp.name . }}
+  kind: ClusterRole
+  name: {{ .Values.name }}
 subjects:
-  - kind: ServiceAccount
-    name: {{ tpl .Values.name  . }}
-    namespace: {{ tpl .Values.namespace  . }}
-roleRef:
-  kind: ClusterRole
-  name: {{ tpl .Values.resource.psp.name . }}
-  apiGroup: rbac.authorization.k8s.io
+- kind: ServiceAccount
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRole
+# metadata:
+#   name: {{ tpl .Values.name  . }}
+# rules:
+#   - apiGroups:
+#       - "*"
+#     resources:
+#       - "*"
+#     verbs:
+#       - "*"
+#   - apiGroups:
+#       - batch
+#     resources:
+#       - jobs
+#     verbs:
+#       - "*"      
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: {{ tpl .Values.name  . }}
+# subjects:
+#   - kind: ServiceAccount
+#     name: {{ tpl .Values.name  . }}
+#     namespace: {{ tpl .Values.namespace  . }}
+# roleRef:
+#   kind: ClusterRole
+#   name: {{ tpl .Values.name  . }}
+#   apiGroup: rbac.authorization.k8s.io
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRole
+# metadata:
+#   name: {{ tpl .Values.resource.psp.name . }}
+# rules:
+#   - apiGroups:
+#       - extensions
+#     resources:
+#       - podsecuritypolicies
+#     verbs:
+#       - use
+#     resourceNames:
+#       - {{ tpl .Values.resource.psp.name . }}
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: {{ tpl .Values.resource.psp.name . }}
+# subjects:
+#   - kind: ServiceAccount
+#     name: {{ tpl .Values.name  . }}
+#     namespace: {{ tpl .Values.namespace  . }}
+# roleRef:
+#   kind: ClusterRole
+#   name: {{ tpl .Values.resource.psp.name . }}
+#   apiGroup: rbac.authorization.k8s.io

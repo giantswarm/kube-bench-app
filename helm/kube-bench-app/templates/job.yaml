@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ tpl .Values.name  . }}
+    # chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation"
+    "helm.sh/hook-weight": "5"
+spec:
+  template:
+    metadata:
+      name: {{ .Release.Name }}
+      labels:
+        app: {{ tpl .Values.name  . }}
+        release: "{{ .Release.Name }}"
+    spec:
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      restartPolicy: Never
+      {{- if .Values.image.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.image.imagePullSecrets | indent 8 }}
+      {{- end }}
+      containers:
+      - name: kube-bench-job
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["help"] # ,"createuser","--no-input","--email", "{{ .Values.user.email }}", "--superuser","--password","$(PASSWORD)"]
+        volumeMounts:
+        - mountPath: /etc/kube-bench
+          name: config
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: {{ tpl .Values.name  . }}
