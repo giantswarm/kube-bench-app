@@ -32,7 +32,7 @@ spec:
       {{- end }}
       containers:
       - name: kube-bench-job
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         command: ["help"] # ,"createuser","--no-input","--email", " email", "--superuser","--password","PASSWORD"]
         volumeMounts:
         - mountPath: /etc/kube-bench
