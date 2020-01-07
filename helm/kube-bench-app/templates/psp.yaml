@@ -25,7 +25,19 @@ spec:
     rule: RunAsAny
   supplementalGroups:
     rule: RunAsAny
+  allowedHostPaths:
+    - pathPrefix: /var/lib/etcd
+      readOnly: true
+    - pathPrefix: /var/lib/kubelet
+      readOnly: true
+    - pathPrefix: /etc/systemd
+      readOnly: true
+    - pathPrefix: /etc/kubernetes
+      readOnly: true
+    - pathPrefix: /usr/bin
+      readOnly: true
   volumes:
+    - 'hostPath'
     - 'secret'
     - 'configMap'
   allowPrivilegeEscalation: false
