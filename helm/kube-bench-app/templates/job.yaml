@@ -30,6 +30,8 @@ spec:
       imagePullSecrets:
 {{ toYaml .Values.image.imagePullSecrets | indent 8 }}
       {{- end }}
+      securityContext:
+        runAsNonRoot: false
       containers:
       - name: kube-bench-job
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
