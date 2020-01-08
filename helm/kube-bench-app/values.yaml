@@ -2,10 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-#   resource:
-#     psp:
-#       name: kube-bench-psp
-
 name: kube-bench-app
 namespace: default
 
@@ -15,16 +11,6 @@ image:
     tag: 0.2.2
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-resources:
-  limits:
-    cpu: 100m
-    memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 256Mi
 
 nodeSelector: {}
 

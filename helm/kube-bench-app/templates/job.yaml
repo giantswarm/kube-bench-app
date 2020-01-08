@@ -5,7 +5,7 @@ metadata:
   namespace: {{ tpl .Values.namespace  . }}
   labels:
     app: {{ tpl .Values.name  . }}
-    # chart: " .Chart.Name } }-{ .Chart.Version | replace "+" "_" } }"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
   annotations:
     # This is what defines this resource as a hook. Without this line, the
@@ -34,7 +34,7 @@ spec:
       containers:
       - name: kube-bench-job
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-        command: ["kube-bench"] # ,"createuser","--no-input","--email", " email", "--superuser","--password","PASSWORD"]
+        command: ["kube-bench", "--help"]
         volumeMounts:
           - name: var-lib-etcd
             mountPath: /var/lib/etcd
