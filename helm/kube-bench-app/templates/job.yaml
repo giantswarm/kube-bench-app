@@ -1,0 +1,78 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ tpl .Values.namespace  . }}
+  labels:
+    app: {{ tpl .Values.name  . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+    "helm.sh/hook-weight": "5"
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      name: {{ .Release.Name }}
+      labels:
+        app: {{ tpl .Values.name  . }}
+        release: "{{ .Release.Name }}"
+    spec:
+      serviceAccountName: {{ .Values.name }}
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      restartPolicy: Never
+      {{- if .Values.image.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.image.imagePullSecrets | indent 8 }}
+      {{- end }}
+      containers:
+      - name: kube-bench-job
+        image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        command: ["kube-bench", "--help"]
+        volumeMounts:
+          - name: var-lib-etcd
+            mountPath: /var/lib/etcd
+            readOnly: true
+          - name: var-lib-kubelet
+            mountPath: /var/lib/kubelet
+            readOnly: true
+          - name: etc-systemd
+            mountPath: /etc/systemd
+            readOnly: true
+          - name: etc-kubernetes
+            mountPath: /etc/kubernetes
+            readOnly: true
+            # /usr/bin is mounted to access kubectl / kubelet, for auto-detecting the Kubernetes version.
+            # You can omit this mount if you specify --version as part of the command.
+          - name: usr-bin
+            mountPath: /usr/bin
+            readOnly: true
+          - mountPath: /etc/kube-bench
+            name: config
+            readOnly: true
+      volumes:
+        - name: var-lib-etcd
+          hostPath:
+            path: "/var/lib/etcd"
+        - name: var-lib-kubelet
+          hostPath:
+            path: "/var/lib/kubelet"
+        - name: etc-systemd
+          hostPath:
+            path: "/etc/systemd"
+        - name: etc-kubernetes
+          hostPath:
+            path: "/etc/kubernetes"
+        - name: usr-bin
+          hostPath:
+            path: "/usr/bin"
+        - name: config
+          configMap:
+            name: {{ tpl .Values.name  . }}

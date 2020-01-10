@@ -1,0 +1,36 @@
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ tpl .Values.namespace  . }}
+spec:
+  privileged: false
+  fsGroup:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  runAsGroup:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  allowedHostPaths:
+    - pathPrefix: /var/lib/etcd
+      readOnly: true
+    - pathPrefix: /var/lib/kubelet
+      readOnly: true
+    - pathPrefix: /etc/systemd
+      readOnly: true
+    - pathPrefix: /etc/kubernetes
+      readOnly: true
+    - pathPrefix: /usr/bin
+      readOnly: true
+  volumes:
+    - 'hostPath'
+    - 'secret'
+    - 'configMap'
+  allowPrivilegeEscalation: false
+  hostNetwork: true
+  hostIPC: false
+  hostPID: true
