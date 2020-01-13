@@ -10,19 +10,10 @@ jobs:
       - run: echo ${{ github.event.client_payload.tag }}
       - name: Create tag file
         run: >
-          python3 -c "with open('./helm/kube-bench-app/image_tag.yaml', 'w') as f: import yaml; d = {'tag': '${{ github.event.client_payload.tag }}'}; yaml.dump(d, f, default_flow_style=False);"
+          python3 -c "with open('./helm/kube-bench-app/image_tag.yaml', 'w') as f: f.write('${{ github.event.client_payload.tag }}\n')"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2.1.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-  
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v1
-#     - name: Run a one-line script
-#       run: echo Hello, world!
-#     - name: Run a multi-line script
-#       run: |
-#         echo Add other actions to build,
-#         echo test, and deploy your project.
+          title: "[Automation] Update kube-bench version to ${{ github.event.client_payload.tag }}"
+          branch-suffix: short-commit-hash
