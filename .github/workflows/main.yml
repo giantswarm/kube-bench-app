@@ -6,9 +6,11 @@ jobs:
   open-pr:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - run: echo ${{ github.event.client_payload.tag }}
-      - run: >
-          python3 -c "with open('image_tag.yaml', 'w') as f: import yaml; d = {'tag': '${{ github.event.client_payload.tag }}'}; yaml.dump(d, f, default_flow_style=False);"
+      - name: Create tag file
+        run: >
+          python3 -c "with open('./helm/kube-bench-app/image_tag.yaml', 'w') as f: import yaml; d = {'tag': '${{ github.event.client_payload.tag }}'}; yaml.dump(d, f, default_flow_style=False);"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2.1.0
         with:
