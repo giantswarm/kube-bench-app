@@ -34,7 +34,7 @@ spec:
       {{- end }}
       containers:
       - name: kube-bench-job
-        image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Files.Get "image_tag.yaml" }}"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Files.Get "image_tag.yaml" | trim }}"
         command: ["kube-bench", "--help"]
         volumeMounts:
           - name: var-lib-etcd
