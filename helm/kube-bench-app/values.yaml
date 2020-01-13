@@ -8,7 +8,7 @@ namespace: default
 image:
     registry: quay.io
     name: giantswarm/kube-bench
-    tag: 0.2.2
+    {{ .Files.Get "image_tag.yaml" }}
 
 imagePullSecrets: []
 
