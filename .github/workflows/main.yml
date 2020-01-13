@@ -8,7 +8,7 @@ jobs:
     steps:
       - run: echo ${{ github.event.client_payload.tag }}
       - run: >
-          python3 -c "with open('image_tag.yaml', 'w') as f: import yaml; d = {'tag': ${{ github.event.client_payload.tag }}}; yaml.dump(d, f, default_flow_style=False);"
+          python3 -c "with open('image_tag.yaml', 'w') as f: import yaml; d = {'tag': '${{ github.event.client_payload.tag }}'}; yaml.dump(d, f, default_flow_style=False);"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2.1.0
         with:
