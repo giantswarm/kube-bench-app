@@ -35,7 +35,7 @@ spec:
       containers:
       - name: kube-bench-job
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-        command: ["kube-bench", "--help"]
+        command: ["kube-bench", "node"]
         volumeMounts:
           - name: var-lib-etcd
             mountPath: /var/lib/etcd
