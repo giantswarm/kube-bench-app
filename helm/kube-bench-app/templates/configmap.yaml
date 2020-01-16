@@ -4,18 +4,51 @@ metadata:
   name: {{ tpl .Values.name  . }}
   namespace: {{ tpl .Values.namespace  . }}
 data:
-  config.yml: |
-    server:
-      enable:
-        debug:
-          server: true
-      listen:
-        address: 'http://0.0.0.0:8000'
-    service:
+  config.yaml: |
+    master:
+      components:
+        - apiserver
+        - scheduler
+        - controllermanager
+        - etcd 
+        # kubernetes is a component to cover the config file /etc/kubernetes/config that is referred to in the benchmark
+        - kubernetes
       kubernetes:
-        address: ''
-        inCluster: true
-        tls:
-          caFile: ''
-          crtFile: ''
-          keyFile: ''
+        defaultconf: /etc/kubernetes/manifests/
+      apiserver:
+        bins:
+          - "hyperkube apiserver"
+        defaultconf: /etc/kubernetes/manifests/k8s-api-server.yaml
+      scheduler:
+        bins:
+          - "hyperkube scheduler"
+        defaultconf: /etc/kubernetes/manifests/k8s-scheduler.yaml
+      controllermanager:
+        bins:
+          - "hyperkube controller-manager"
+        defaultconf: /etc/kubernetes/manifests/k8s-controller-manager.yaml
+      etcd:
+        optional: true
+        bins:
+          - "etcd"
+        defaultconf: /etc/systemd/system/etcd3.service
+    node:
+      components:
+        - kubelet
+        - proxy
+        # kubernetes is a component to cover the config file /etc/kubernetes/config that is referred to in the benchmark
+        - kubernetes
+      kubernetes:
+        defaultconf: /etc/kubernetes/config/    
+      kubelet:
+        bins:
+          - "hyperkube kubelet"
+        defaultsvc: /etc/systemd/system/k8s-kubelet.service
+        defaultconf: /etc/systemd/system/k8s-kubelet.service
+      proxy:
+        bins:
+          - "hyperkube proxy"
+        confs:
+          - /etc/kubernetes/config/proxy-config.yml
+          - /srv/kube-proxy-ds.yaml
+---
