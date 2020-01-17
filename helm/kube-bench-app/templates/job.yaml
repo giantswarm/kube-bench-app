@@ -115,7 +115,7 @@ spec:
           hostPath:
             path: "/usr/bin"
         - name: srv-kubernetes
-            hostPath:
+          hostPath:
             path: "/srv"          
         - name: config
           configMap:
