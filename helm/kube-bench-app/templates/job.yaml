@@ -22,6 +22,7 @@ spec:
         app: {{ tpl .Values.name  . }}
         release: "{{ .Release.Name }}"
     spec:
+      hostPID: true
       serviceAccountName: {{ .Values.name }}
       {{- with .Values.affinity }}
       affinity:
