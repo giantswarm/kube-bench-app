@@ -81,7 +81,7 @@ spec:
             mountPath: /etc/systemd
             readOnly: true
           - name: etc-kubernetes
-            mountPath: /etc/kubernetes
+            mountPath: /etc # /kubernetes
             readOnly: true
             # /usr/bin is mounted to access kubectl / kubelet, for auto-detecting the Kubernetes version.
             # You can omit this mount if you specify --version as part of the command.
@@ -112,7 +112,7 @@ spec:
             path: "/etc/systemd"
         - name: etc-kubernetes
           hostPath:
-            path: "/etc/kubernetes"
+            path: "/etc" # /kubernetes"
         - name: usr-bin
           hostPath:
             path: "/usr/bin"
