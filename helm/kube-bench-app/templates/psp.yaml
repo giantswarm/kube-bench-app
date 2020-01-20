@@ -26,6 +26,8 @@ spec:
       readOnly: true
     - pathPrefix: /usr/bin
       readOnly: true
+    - pathPrefix: /srv
+      readOnly: true
   volumes:
     - 'hostPath'
     - 'secret'
