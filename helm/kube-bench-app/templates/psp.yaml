@@ -22,7 +22,7 @@ spec:
       readOnly: true
     - pathPrefix: /etc/systemd
       readOnly: true
-    - pathPrefix: /etc/kubernetes
+    - pathPrefix: /etc # /kubernetes
       readOnly: true
     - pathPrefix: /usr/bin
       readOnly: true
