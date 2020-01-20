@@ -28,8 +28,8 @@ spec:
       readOnly: true
     - pathPrefix: /srv
       readOnly: true
-    - pathPrefix: /opt/bin
-      readOnly: true
+    # - pathPrefix: /opt/bin
+    #   readOnly: true
   volumes:
     - 'hostPath'
     - 'secret'
