@@ -1,21 +1,21 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ .Values.name }}
-  namespace: {{ tpl .Values.namespace  . }}
-rules:
-- apiGroups:
-  - '*'
-  resources:
-  - '*'
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - update
-  - patch
-  - delete
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRole
+# metadata:
+#   name: {{ .Values.name }}
+#   namespace: {{ tpl .Values.namespace  . }}
+# rules:
+# - apiGroups:
+#   - '*'
+#   resources:
+#   - '*'
+#   verbs:
+#   - get
+#   - list
+#   - watch
+#   - create
+#   - update
+#   - patch
+#   - delete
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23,20 +23,20 @@ metadata:
   name: {{ .Values.name }}
   namespace: {{ tpl .Values.namespace  . }}
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  creationTimestamp: null
-  name: kube-bench-rolebinding
-  namespace: {{ tpl .Values.namespace  . }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: {{ .Values.name }}
-subjects:
-- kind: ServiceAccount
-  name: {{ .Values.name }}
-  namespace: {{ .Release.Namespace }}
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   creationTimestamp: null
+#   name: kube-bench-rolebinding
+#   namespace: {{ tpl .Values.namespace  . }}
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: {{ .Values.name }}
+# subjects:
+# - kind: ServiceAccount
+#   name: {{ .Values.name }}
+#   namespace: {{ .Release.Namespace }}
 
 # Apply PSP
 ---

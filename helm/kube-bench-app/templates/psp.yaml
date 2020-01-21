@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.name }}
   namespace: {{ tpl .Values.namespace  . }}
 spec:
-  privileged: true
+  # privileged: true
   fsGroup:
     rule: RunAsAny
   runAsUser:
@@ -32,9 +32,9 @@ spec:
     - 'hostPath'
     - 'secret'
     - 'configMap'
-  allowPrivilegeEscalation: true
-  allowedCapabilities:
-    - '*'
-  hostNetwork: true
-  hostIPC: true
+  # allowPrivilegeEscalation: true
+  # allowedCapabilities:
+  #   - '*'
+  # hostNetwork: true
+  # hostIPC: true
   hostPID: true
