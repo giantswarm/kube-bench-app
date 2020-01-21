@@ -111,9 +111,6 @@ spec:
         - name: srv-kubernetes
           hostPath:
             path: "/srv"
-        - name: opt-bin
-          hostPath:
-            path: "/opt/bin"
         - name: config
           configMap:
             name: {{ tpl .Values.name  . }}
@@ -205,9 +202,6 @@ spec:
         - name: srv-kubernetes
           hostPath:
             path: "/srv"
-        - name: opt-bin
-          hostPath:
-            path: "/opt/bin"
         - name: config
           configMap:
             name: {{ tpl .Values.name  . }}
