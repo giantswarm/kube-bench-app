@@ -114,7 +114,8 @@ spec:
         - name: config
           configMap:
             name: {{ tpl .Values.name  . }}
----  # Need second job for scheduling on master
+---
+# Need second job for scheduling on master
 apiVersion: batch/v1
 kind: Job
 metadata:
