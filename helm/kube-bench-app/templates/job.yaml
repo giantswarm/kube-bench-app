@@ -17,7 +17,7 @@ spec:
   ttlSecondsAfterFinished: 300
   template:
     metadata:
-      name: {{ .Release.Name }}
+      name: {{ .Release.Name }}-node
       labels:
         app: {{ tpl .Values.name  . }}
         release: "{{ .Release.Name }}"
@@ -135,7 +135,7 @@ spec:
   ttlSecondsAfterFinished: 300
   template:
     metadata:
-      name: {{ .Release.Name }}
+      name: {{ .Release.Name }}-master
       labels:
         app: {{ tpl .Values.name  . }}
         release: "{{ .Release.Name }}"
