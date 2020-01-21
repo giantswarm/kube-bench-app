@@ -4,7 +4,6 @@ metadata:
   name: {{ .Values.name }}
   namespace: {{ tpl .Values.namespace  . }}
 spec:
-  # privileged: true
   fsGroup:
     rule: RunAsAny
   runAsUser:
@@ -22,7 +21,7 @@ spec:
       readOnly: true
     - pathPrefix: /etc/systemd
       readOnly: true
-    - pathPrefix: /etc # /kubernetes
+    - pathPrefix: /etc
       readOnly: true
     - pathPrefix: /usr/bin
       readOnly: true
@@ -32,9 +31,4 @@ spec:
     - 'hostPath'
     - 'secret'
     - 'configMap'
-  # allowPrivilegeEscalation: true
-  # allowedCapabilities:
-  #   - '*'
-  # hostNetwork: true
-  # hostIPC: true
   hostPID: true
