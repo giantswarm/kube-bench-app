@@ -24,11 +24,18 @@ data:
         defaultconf: /etc/kubernetes/manifests/k8s-api-server.yaml
       scheduler:
         bins:
+          - "kube-scheduler"
           - "hyperkube scheduler"
+          - "hyperkube kube-scheduler"
+          - "scheduler"
         defaultconf: /etc/kubernetes/manifests/k8s-scheduler.yaml
       controllermanager:
         bins:
+          - "kube-controller-manager"
+          - "kube-controller"
           - "hyperkube controller-manager"
+          - "hyperkube kube-controller-manager"
+          - "controller-manager"
         defaultconf: /etc/kubernetes/manifests/k8s-controller-manager.yaml
       etcd:
         optional: true
