@@ -4,7 +4,15 @@ metadata:
   name: {{ .Values.name }}
   namespace: {{ tpl .Values.namespace  . }}
 spec:
+  fsGroup:
+    rule: RunAsAny
   runAsUser:
+    rule: RunAsAny
+  runAsGroup:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
     rule: RunAsAny
   allowedHostPaths:
     - pathPrefix: /var/lib/etcd
