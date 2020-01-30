@@ -1,4 +1,4 @@
-appVersion: 0.2.2
+appVersion: 0.2.3
 description: A Helm chart for the Aqua Security kube-bench tool
 name: kube-bench-app
 version: [[ .Version ]]

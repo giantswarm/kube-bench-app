@@ -26,7 +26,7 @@ spec:
       containers:
       - name: kube-bench-node
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-        command: ["kube-bench", "node", "--json", "true"]
+        command: ["kube-bench", "node", "--json", "true", "--include-test-output", "true"]
         volumeMounts:
           - name: var-lib-etcd
             mountPath: /var/lib/etcd
@@ -57,6 +57,9 @@ spec:
           - mountPath: /opt/kube-bench/cfg/cis-1.5/config.yaml
             name: config
             subPath: config.yaml
+          - mountPath: /opt/kube-bench/cfg/cis-1.5/node.yaml
+            name: node-controls
+            subPath: node.yaml
       volumes:
         - name: var-lib-etcd
           hostPath:
@@ -79,6 +82,9 @@ spec:
         - name: config
           configMap:
             name: {{ tpl .Values.name  . }}
+        - name: node-controls
+          configMap:
+            name: {{ tpl .Values.name  . }}-node-controls
 
 ---
 # Need second job for scheduling on master
@@ -116,7 +122,7 @@ spec:
       containers:
       - name: kube-bench-master
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-        command: ["kube-bench", "master", "--json", "true"]
+        command: ["kube-bench", "master", "--json", "true", "--include-test-output", "true"]
         volumeMounts:
           - name: var-lib-etcd
             mountPath: /var/lib/etcd
