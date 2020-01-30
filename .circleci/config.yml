@@ -28,17 +28,17 @@ e2eTest: &e2eTest
           ./e2ectl cluster create
           cp $(./e2ectl kubeconfig path) ${E2E_TEST_DIR}/kubeconfig
 
-    # - run:
-    #     name: Run test
-    #     command: |
-    #       docker run --rm --network host \
-    #         -v $(pwd)/${E2E_TEST_DIR}:/e2e \
-    #         -v $(pwd):/go/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} \
-    #         -e E2E_TARBALL_URL=https://giantswarm.github.io/default-test-catalog/kube-bench-app-$(./architect project version).tgz \
-    #         -e E2E_KUBECONFIG=/e2e/kubeconfig \
-    #         -e CIRCLE_SHA1=${CIRCLE_SHA1} \
-    #         -w /go/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} \
-    #         golang:1 go test -v -tags k8srequired ./${E2E_TEST_DIR}/
+    - run:
+        name: Run test
+        command: |
+          docker run --rm --network host \
+            -v $(pwd)/${E2E_TEST_DIR}:/e2e \
+            -v $(pwd):/go/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} \
+            -e E2E_TARBALL_URL=https://giantswarm.github.io/default-test-catalog/kube-bench-app-$(./architect project version).tgz \
+            -e E2E_KUBECONFIG=/e2e/kubeconfig \
+            -e CIRCLE_SHA1=${CIRCLE_SHA1} \
+            -w /go/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} \
+            golang:1 go test -v -tags k8srequired ./${E2E_TEST_DIR}/
 
     - run:
         name: Export logs
