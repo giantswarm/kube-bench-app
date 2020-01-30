@@ -82,14 +82,14 @@ workflows:
       - build
 
       - architect/push-to-app-catalog:
-        name: "package and push kube-bench-app chart"
-        app_catalog: "giantswarm-incubator-catalog"
-        app_catalog_test: "giantswarm-incubator-test-catalog"
-        chart: "kube-bench-app"
-        # Trigger job on git tag.
-        filters:
-          tags:
-            only: /^v.*/
+          name: "package and push kube-bench-app chart"
+          app_catalog: "giantswarm-incubator-catalog"
+          app_catalog_test: "giantswarm-incubator-test-catalog"
+          chart: "kube-bench-app"
+          # Trigger job on git tag.
+          filters:
+            tags:
+              only: /^v.*/
 
       - e2eTestBasic:
           requires:
