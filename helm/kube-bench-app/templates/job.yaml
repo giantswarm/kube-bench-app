@@ -58,7 +58,7 @@ spec:
             name: config
             subPath: config.yaml
           - mountPath: /opt/kube-bench/cfg/cis-1.5/node.yaml
-            name: {{ tpl .Values.name  . }}-node-controls
+            name: node-controls
             subPath: node.yaml
       volumes:
         - name: var-lib-etcd
