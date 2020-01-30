@@ -82,7 +82,7 @@ workflows:
       - build
 
       - architect/push-to-app-catalog:
-          name: "package and push kube-bench-app chart"
+          name: "package-and-push-kube-bench-app-chart"
           app_catalog: "giantswarm-incubator-catalog"
           app_catalog_test: "giantswarm-incubator-test-catalog"
           chart: "kube-bench-app"
@@ -94,7 +94,7 @@ workflows:
       - e2eTestBasic:
           requires:
             - build
-            - push-to-default-app-catalog
+            - package-and-push-kube-bench-app-chart
           filters:
             # Do not trigger the job on merge to master.
             branches:
