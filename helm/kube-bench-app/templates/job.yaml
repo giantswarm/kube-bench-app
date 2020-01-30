@@ -122,7 +122,7 @@ spec:
       containers:
       - name: kube-bench-master
         image: "{{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-        command: ["kube-bench", "master", "--json", "true"]
+        command: ["kube-bench", "master", "--json", "true", "--include-test-output", "true"]
         volumeMounts:
           - name: var-lib-etcd
             mountPath: /var/lib/etcd
