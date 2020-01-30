@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ tpl .Values.name  . }}
+  name: {{ tpl .Values.name  . }}-node-controls
   namespace: {{ tpl .Values.namespace  . }}
 data:
-  config.yaml: |
+  node.yaml: |
     controls:
     version: 1.5
     id: 4
