@@ -1,4 +1,10 @@
+apiVersion: v2
 appVersion: 0.2.3
 description: A Helm chart for the Aqua Security kube-bench tool
+home: https://github.com/giantswarm/kube-bench-app
+icon: https://github.com/aquasecurity/kube-bench/raw/main/images/kube-bench.png
 name: kube-bench-app
+namespace: kube-system
 version: [[ .Version ]]
+sources:
+  - https://raw.githubusercontent.com/giantswarm/kube-bench-app/v[[ .Version ]]/README.md
