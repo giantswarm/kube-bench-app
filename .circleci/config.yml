@@ -5,13 +5,17 @@ orbs:
 workflows:
   build:
     jobs:
-      - architect/push-to-app-catalog:
-          name: "package and push kube-bench-app chart to giantswarm-playground-catalog"
-          app_catalog: "giantswarm-playground-catalog"
-          app_catalog_test: "giantswarm-playground-test-catalog"
-          context: architect
-          chart: "kube-bench-app"
+    - architect/push-to-app-catalog:
+        name: package and push kube-bench-app chart to giantswarm-playground-catalog
+        app_catalog: giantswarm-playground-catalog
+        app_catalog_test: giantswarm-playground-test-catalog
+        context: architect
+        chart: kube-bench-app
           # Trigger job on git tag.
-          filters:
-            tags:
-              only: /^v.*/
+        filters:
+          tags:
+            only: /^v.*/
+          branches:
+            ignore:
+            - main
+            - master
